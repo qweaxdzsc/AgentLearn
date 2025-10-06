@@ -111,8 +111,12 @@ async def run_agent():
         #     "url": f"https://mcp.amap.com/sse?key={awap_mpas_api_keys}",
         #     "transport": "sse",
         # },
-        "simple-mcp":{
-            "url": f"http://0.0.0.0:5001/mcp",
+        # "simple-mcp":{
+        #     "url": f"http://0.0.0.0:5001/mcp",
+        #     "transport": "streamable_http",
+        # },
+        "es-query":{
+            "url": f"http://0.0.0.0:5005/mcp",
             "transport": "streamable_http",
         }
     })
@@ -126,7 +130,7 @@ async def run_agent():
 
     # 定义系统消息，指导如何使用工具
     system_message = SystemMessage(content=(
-        "你是一个AI助手，使用高德地图工具获取信息。"
+        ""
     ))
 
     # 创建ReAct风格的agent
@@ -168,7 +172,8 @@ async def run_agent():
     # 2、流式处理查询
     async for message_chunk, metadata in agent.astream(
             # input={"messages": [HumanMessage(content="这个118.79815,32.01112经纬度对应的地方是哪里。输出的内容中不要出现{}")]},
-            input={"messages": [HumanMessage(content="帮我读取一个abcdefg.txt文件,输出其中的文件内容，若为空，则输出“此文件为空”")]},
+            # input={"messages": [HumanMessage(content="帮我读取一个abcdefg.txt文件,输出其中的文件内容，若为空，则输出“此文件为空”")]},
+            input={"messages": [HumanMessage(content="帮我查询下本地数据库，有关机器学习的文档”")]},
             config=config,
             stream_mode="messages"
     ):
